@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="home.html">Home</a><a class="active" href="product.html">Products</a><a href="cart.html">Cart</a><a href="checkout.html">Checkout</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="dashboard.html">Dashboard</a></div></div></header>
+  <main>
+    <section class="page-banner"><div class="container"><div class="page-banner__panel" data-reveal><span class="eyebrow">Catalog</span><h1 class="section__title">Browse furniture by category, price, and stock.</h1><p class="section__subtitle">Scroll down to load more items automatically.</p></div></div></section>
+    <section class="section section--compact">
+      <div class="container">
+        <div class="product-toolbar" data-reveal>
+          <input id="productSearch" type="search" placeholder="Search furniture">
+        </div>
+        <div id="productGrid" class="product-grid"></div>
+        <p id="productEmpty" class="product-grid__empty" style="display:none;">No products found.</p>
+        <div id="productSentinel" class="product-sentinel">
+          <span class="product-sentinel__spinner"></span>
+          <span class="product-sentinel__text">Loading more items…</span>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/item.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="home.html">Home</a><a href="orders.html">Orders</a><a href="profile.html" class="active">Profile</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Create Account</a></div></div></header>
+  <main class="section"><div class="container auth-layout" style="grid-template-columns: 0.8fr 1.2fr;"><section class="panel" data-reveal><div class="panel__body"><span class="eyebrow">Profile</span><h1 class="section__title">Manage your account details.</h1><p class="section__subtitle">Customers can update their contact information and administrators can keep the same profile management layout.</p></div></section><section class="panel" data-reveal data-delay="1"><div class="panel__body"><div id="profileMessage" class="badge badge--warning" style="display:none;"></div><form id="profileForm" class="form" action="#" method="post" novalidate><div class="field"><label for="profileName">Name</label><input id="profileName" name="name" type="text" value="Sample Customer"></div><div class="field"><label for="profileEmail">Email</label><input id="profileEmail" name="email" type="email" value="customer1@furnitureshop.local"></div><div class="field"><label for="profilePhone">Phone</label><input id="profilePhone" name="phone" type="text" value="09170000001"></div><div class="field"><label for="profileAddress">Address</label><textarea id="profileAddress" name="address" rows="4">Sample Address 1</textarea></div><button class="btn btn--primary" type="submit">Save Changes</button></form></div></section></div></main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

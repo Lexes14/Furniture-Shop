@@ -1,0 +1,8 @@
+.auth-card .btn--primary {
+  width: 100%;
+}
+
+.auth-card .field textarea {
+  min-height: 110px;
+  resize: vertical;
+}

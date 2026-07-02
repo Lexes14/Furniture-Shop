@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a href="home.html">Home</a><a href="product.html">Products</a><a href="cart.html">Cart</a><a
+          class="active" href="checkout.html">Checkout</a></nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container auth-layout" style="grid-template-columns: 1.1fr 0.9fr;">
+      <section class="panel" data-reveal>
+        <div class="panel__body">
+          <span class="eyebrow">Checkout</span>
+          <h1 class="section__title">Complete your order securely.</h1>
+          <div id="checkoutMessage" class="badge badge--warning" style="display:none;"></div>
+          <form id="checkoutForm" class="form" action="#" method="post" novalidate>
+            <div class="field"><label for="shipAddress">Shipping Address</label><textarea id="shipAddress" rows="4"
+                placeholder="Enter shipping address"></textarea></div>
+            <div class="field"><label for="paymentMethod">Payment Method</label><select id="paymentMethod">
+                <option>Cash on Delivery</option>
+              </select></div>
+            <button class="btn btn--primary" type="submit">Place Order</button>
+          </form>
+        </div>
+      </section>
+      <aside class="panel" data-reveal data-delay="1">
+        <div class="panel__body"><span class="eyebrow">Summary</span>
+          <h3>Order Total</h3>
+          <p class="section__subtitle">A live order summary panel.</p>
+          <div class="stat"><strong>₱500</strong><span class="section__subtitle">Includes shipping fee</span></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/order.js"></script>
+</body>
+
+</html>

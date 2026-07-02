@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-page="auth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body data-page="auth">
+  <main class="form-shell">
+    <div class="auth-layout">
+      <section class="auth-art" data-reveal>
+        <a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a>
+        <div>
+          <span class="eyebrow">Welcome back</span>
+          <h1>Sign in to continue your furniture workflow.</h1>
+          <p>Customers can track orders and reservations. Administrators can manage catalog, users, reports, and transactions.</p>
+        </div>
+      </section>
+      <section class="auth-card" data-reveal data-delay="1">
+        <span class="eyebrow">Login</span>
+        <h1>Access your account</h1>
+        <p>Use your registered email and password to open the customer or admin dashboard.</p>
+        <div id="authMessage" class="badge badge--warning" style="display:none;"></div>
+        <form id="loginForm" class="form" action="#" method="post" novalidate>
+          <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" name="email" type="email" placeholder="admin@furnitureshop.local"></div>
+          <div class="field"><label for="loginPassword">Password</label><input id="loginPassword" name="password" type="password" placeholder="Enter your password"></div>
+          <button class="btn btn--primary" type="submit">Login</button>
+        </form>
+        <p style="margin-top: 1rem;">Don't have an account? <a href="register.html" style="color: var(--brand-dark); font-weight: 700;">Create one here</a>.</p>
+      </section>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Users | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a class="active" href="users.html">Users</a><a
+          href="items.html">Items</a><a href="reports.html">Reports</a></nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal><span class="eyebrow">User Management</span>
+        <h1 class="section__title">Manage customers and administrators.</h1>
+        <p class="section__subtitle">This page is ready for listing, role updates, activation, and deactivation actions
+          with DataTables in the next phase.</p>
+      </div>
+      <div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="1">
+        <div class="table-toolbar"><strong>Users</strong><input id="userSearch" type="search"
+            placeholder="Search users"></div>
+        <div class="table-responsive">
+          <table id="userTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/user.js"></script>
+</body>
+
+</html>

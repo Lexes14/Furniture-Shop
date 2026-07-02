@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a class="active" href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a
+          href="users.html">Users</a><a href="items.html">Items</a><a href="reports.html">Reports</a></nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal>
+        <span class="eyebrow">Admin Dashboard</span>
+        <h1 class="section__title">Monitor sales, inventory, and operations at a glance.</h1>
+        <p class="section__subtitle">The dashboard layout is ready for charts, data tables, and role-based controls in
+          the next integration phase.</p>
+      </div>
+      <div class="stats" style="margin-top: 1rem;">
+        <div class="stat" data-reveal><strong id="metricOrders">0</strong> Orders</div>
+        <div class="stat" data-reveal data-delay="1"><strong id="metricUsers">0</strong> Users</div>
+        <div class="stat" data-reveal data-delay="2"><strong id="metricLowStock">0</strong> Low Stock</div>
+        <div class="stat" data-reveal data-delay="3"><strong id="metricRevenue">₱0.00</strong> Revenue</div>
+      </div>
+      <div class="grid grid--3" style="margin-top: 1rem;">
+        <article class="panel" data-reveal>
+          <div class="panel__body">
+            <h3>Sales Trend</h3><canvas id="salesLineChart" height="180"></canvas>
+          </div>
+        </article>
+        <article class="panel" data-reveal data-delay="1">
+          <div class="panel__body">
+            <h3>Category Mix</h3><canvas id="categoryPieChart" height="180"></canvas>
+          </div>
+        </article>
+        <article class="panel" data-reveal data-delay="2">
+          <div class="panel__body">
+            <h3>Best Sellers</h3><canvas id="productBarChart" height="180"></canvas>
+          </div>
+        </article>
+      </div>
+      <div class="table-shell dashboard-orders" style="margin-top: 1rem;" data-reveal data-delay="3">
+        <div class="table-toolbar table-toolbar--wrap">
+          <div>
+            <strong>Customer Orders</strong>
+            <span id="orderMessage" class="badge" style="display: none;"></span>
+          </div>
+          <div class="toolbar-controls">
+            <select id="dashboardOrderStatus" aria-label="Filter order status">
+              <option value="">All statuses</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+            <input id="dashboardOrderSearch" type="search" placeholder="Search customer or order #">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="dashboardOrderTable">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Ordered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="6">Loading orders...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+
+</html>

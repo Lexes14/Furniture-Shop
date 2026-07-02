@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="home.html">Home</a><a href="product.html">Products</a><a class="active" href="cart.html">Cart</a><a href="checkout.html">Checkout</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Create Account</a></div></div></header>
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal>
+        <span class="eyebrow">Shopping Cart</span>
+        <h1 class="section__title">Review selected furniture items before checkout.</h1>
+        <p class="section__subtitle">This page is structured for dynamic cart rendering, quantity updates, and order summary calculations.</p>
+      </div>
+      <div id="cartMessage" class="badge badge--warning" style="display:none; margin-top: 1rem;"></div>
+      <div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="1">
+        <div class="table-responsive">
+          <table>
+            <thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr></thead>
+            <tbody id="cartTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="grid grid--3" style="margin-top: 1rem;">
+        <div class="stat"><strong id="cartTotalItems">0</strong>Total Items</div>
+        <div class="stat"><strong id="cartSubtotal">₱0.00</strong>Subtotal</div>
+        <div class="stat"><a class="btn btn--primary" href="checkout.html">Proceed to Checkout</a><button id="clearCartButton" class="btn btn--ghost" type="button" style="margin-top: 0.75rem;">Clear Cart</button></div>
+      </div>
+    </div>
+  </main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+</head>
+<body>
+  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="home.html">Home</a><a href="product.html">Products</a><a href="cart.html">Cart</a><a class="active" href="orders.html">Orders</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Create Account</a></div></div></header>
+  <main class="section"><div class="container"><div class="page-banner__panel" data-reveal><span id="orderEyebrow" class="eyebrow">Orders</span><h1 id="orderTitle" class="section__title">Track the status of every order.</h1><p id="orderSubtitle" class="section__subtitle">Pending, approved, cancelled, and delivered order states are prepared for live backend rendering.</p></div><div class="table-shell dashboard-orders" style="margin-top: 1rem;" data-reveal data-delay="1"><div class="table-toolbar table-toolbar--wrap"><div><strong id="orderToolbarTitle">Orders</strong><span id="orderMessage" class="badge" style="display: none;"></span></div><div class="toolbar-controls"><select id="orderStatusFilter" aria-label="Filter order status" style="display: none;"><option value="">All statuses</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select><input id="orderSearch" type="search" placeholder="Search orders"></div></div><div class="table-responsive"><table id="orderTable"><thead><tr><th>Order #</th><th>Status</th><th>Total</th><th>Receipt</th></tr></thead><tbody></tbody></table></div></div></div></main>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/order.js"></script>
+</body>
+</html>
