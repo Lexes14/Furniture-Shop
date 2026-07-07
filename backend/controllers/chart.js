@@ -1,6 +1,7 @@
 const { Op, fn, col, literal, QueryTypes } = require('sequelize');
 const { sequelize, Order, OrderItem, Item, Category, Stock } = require('../models');
 
+// Helper function to generate a color palette for charts
 function chartPalette(index) {
   const colors = [
     '#8b5cf6',
@@ -27,10 +28,12 @@ const ORDER_ITEMS_JOIN = `
 `;
 const REVENUE_EXPRESSION = 'COALESCE(SUM(o.shipping_fee + COALESCE(oi.items_total, 0)), 0)';
 
+//ito oy para sa pag-build ng filters para sa revenue charts, kung saan ang mga filters ay naglalaman ng mga kondisyon para sa SQL query batay sa mga query parameters na ipinasa sa request
 function buildRevenueFilters(query) {
-  const conditions = [`o.status IN ('approved', 'delivered')`];
-  const replacements = {};
+  const conditions = [`o.status IN ('approved', 'delivered')`];//check lang nito kung ang status ng order ay approved o delivered, dahil tanging ang mga order na ito lang ang bibilangin sa revenue charts
+  const replacements = {};//ito ay naglalaman ng mga values na ipapalit sa mga placeholders sa query, para maiwasan ang SQL injection
 
+  //ginagawa nito ay nagche-check kung mayroong startDate at endDate sa query parameters, at kung meron, idadagdag ang mga kondisyon sa conditions array at ipapalit ang mga values sa replacements object
   if (query.startDate) {
     conditions.push('o.order_date >= :startDate');
     replacements.startDate = query.startDate;
@@ -40,14 +43,18 @@ function buildRevenueFilters(query) {
     replacements.endDate = query.endDate;
   }
 
+  //ginagawa nito ay nagche-check kung mayroong categoryId sa query parameters, at kung meron, idadagdag ang kondisyon sa conditions array at ipapalit ang value sa replacements object
   return { whereClause: conditions.join(' AND '), replacements };
 }
 
+// Controller functions for generating chart data
 async function salesBar(req, res) {
   try {
-    const year = req.query.year || new Date().getFullYear();
-    const { whereClause, replacements } = buildRevenueFilters(req.query);
 
+    const year = req.query.year || new Date().getFullYear();
+    const { whereClause, replacements } = buildRevenueFilters(req.query);//Ang whereClause ay naglalaman ng SQL conditions, at ang replacements ay naglalaman ng mga values na ipapalit sa mga placeholders sa query.
+
+    //ito ay nagse-select ng data mula sa orders table, kung saan ang order_date ay nasa loob ng specified year, at nagbabalik ng label (formatted as YYYY-MM) at value (total revenue for that month)
     const results = await sequelize.query(
       `
         SELECT DATE_FORMAT(o.order_date, '%Y-%m') AS label,
@@ -64,6 +71,7 @@ async function salesBar(req, res) {
       }
     );
 
+    //magreturn ng res na naglalaman ng labels (months) at datasets (revenue values) para sa sales bar chart
     return res.status(200).json({
       success: true,
       data: {
@@ -82,10 +90,11 @@ async function salesBar(req, res) {
   }
 }
 
+//ito naman ay para sa pag-generate ng data para sa sales line chart, kung saan ang x-axis ay buwan at ang y-axis ay revenue, at nagbabalik ng label (formatted as YYYY-MM) at value (total revenue for that month)
 async function salesLine(req, res) {
   try {
-    const year = req.query.year || new Date().getFullYear();
-    const { whereClause, replacements } = buildRevenueFilters(req.query);
+    const year = req.query.year || new Date().getFullYear();//kung walang year na ipinasa sa query parameters, gagamitin ang kasalukuyang taon bilang default
+    const { whereClause, replacements } = buildRevenueFilters(req.query);//Ang whereClause ay naglalaman ng SQL conditions, at ang replacements ay naglalaman ng mga values na ipapalit sa mga placeholders sa query.
 
     const results = await sequelize.query(
       `
@@ -157,6 +166,7 @@ async function categoryPie(req, res) {
   }
 }
 
+//ito ay para sa pag-generate ng data para sa product bar chart, kung saan ang x-axis ay mga produkto at ang y-axis ay bilang ng units sold, at nagbabalik ng label (product name) at value (total units sold)
 async function productBar(req, res) {
   try {
     const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 10, 1), 20);
