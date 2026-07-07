@@ -826,6 +826,8 @@ th {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 1.2rem;
+  position: relative;
+  z-index: 20;
 }
 
 .product-toolbar input {
@@ -975,4 +977,95 @@ th {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 0.78rem;
   line-height: 1.4;
+}
+
+/* ===== Homepage search / autocomplete widget ===== */
+.search-widget {
+  position: relative;
+  max-width: 560px;
+  z-index: 20;
+}
+
+.search-widget input {
+  width: 100%;
+  border: 1px solid rgba(124, 74, 45, 0.16);
+  border-radius: 999px;
+  padding: 0.95rem 1.3rem;
+  background: #fff;
+  color: var(--text);
+  outline: none;
+  font-size: 1rem;
+}
+
+.search-widget input:focus {
+  border-color: rgba(124, 74, 45, 0.45);
+  box-shadow: 0 0 0 4px rgba(124, 74, 45, 0.08);
+}
+
+.search-widget__results {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow);
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 50;
+}
+
+.search-widget__item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(124, 74, 45, 0.06);
+}
+
+.search-widget__item:last-child {
+  border-bottom: none;
+}
+
+.search-widget__item:hover,
+.search-widget__item.is-active {
+  background: rgba(124, 74, 45, 0.06);
+}
+
+.search-widget__thumb,
+.search-widget__thumb--empty {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(124, 74, 45, 0.08);
+}
+
+.search-widget__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.search-widget__info strong {
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.search-widget__info span {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.search-widget__empty {
+  padding: 1rem;
+  text-align: center;
+  color: var(--muted);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
 }

@@ -1,26 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | Furniture Shop</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <div class="topbar"><div class="container topbar__inner"><span>Browse featured collections and promotions.</span><span>Customer portal</span></div></div>
+  <div class="topbar">
+    <div class="container topbar__inner"><span>Browse featured collections and promotions.</span><span>Customer
+        portal</span></div>
+  </div>
   <header class="header">
     <div class="container header__inner">
       <a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a>
-      <nav class="nav"><a class="active" href="home.html">Home</a><a href="product.html">Products</a><a href="cart.html">Cart</a><a href="orders.html">Orders</a></nav>
-      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Join</a></div>
+      <nav class="nav"><a class="active" href="home.html">Home</a><a href="product.html">Products</a><a
+          href="cart.html">Cart</a><a href="orders.html">Orders</a></nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Join</a></div>
     </div>
   </header>
   <main>
-    <section class="page-banner"><div class="container"><div class="page-banner__panel" data-reveal><span class="eyebrow">Featured Home</span><h1 class="section__title">Discover furniture crafted for modern living.</h1><p class="section__subtitle">Highlight bestselling sofas, tables, beds, and office pieces while users move seamlessly toward checkout or reservation.</p></div></div></section>
-    <section class="section section--compact"><div class="container"><div id="featuredProducts" class="grid grid--3"><article class="panel" data-reveal><div class="panel__body"><h3>Loading featured products</h3><p class="section__subtitle">AJAX is loading items from the backend.</p></div></article></div></div></section>
+    <section class="page-banner">
+      <div class="container">
+        <div class="page-banner__panel" data-reveal><span class="eyebrow">Featured Home</span>
+          <h1 class="section__title">Discover furniture crafted for modern living.</h1>
+          <p class="section__subtitle">Highlight bestselling sofas, tables, beds, and office pieces while users move
+            seamlessly toward checkout or reservation.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--compact" style="padding-bottom: 0;">
+      <div class="container">
+        <div class="search-widget" data-reveal>
+          <input id="homeSearchInput" type="search"
+            placeholder="Search furniture — e.g. sofa, dining table, bed frame..." autocomplete="off">
+          <div id="homeSearchResults" class="search-widget__results" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--compact">
+      <div class="container">
+        <div id="featuredProducts" class="grid grid--3">
+          <article class="panel" data-reveal>
+            <div class="panel__body">
+              <h3>Loading featured products</h3>
+              <p class="section__subtitle">AJAX is loading items from the backend.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/search.js"></script>
   <script src="js/home.js"></script>
 </body>
+
 </html>

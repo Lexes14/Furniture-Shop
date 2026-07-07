@@ -13,7 +13,10 @@
     <section class="section section--compact">
       <div class="container">
         <div class="product-toolbar" data-reveal>
-          <input id="productSearch" type="search" placeholder="Search furniture">
+          <div class="search-widget">
+            <input id="productSearch" type="search" placeholder="Search furniture" autocomplete="off">
+            <div id="productSearchResults" class="search-widget__results" style="display:none;"></div>
+          </div>
         </div>
         <div id="productGrid" class="product-grid"></div>
         <p id="productEmpty" class="product-grid__empty" style="display:none;">No products found.</p>
@@ -26,6 +29,7 @@
   </main>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/search.js"></script>
   <script src="js/item.js"></script>
 </body>
 </html>

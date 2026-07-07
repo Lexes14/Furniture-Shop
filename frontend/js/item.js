@@ -349,18 +349,21 @@
             const itemId = $('#itemId').val();
             const formData = new FormData(this);
 
+            //dito nangyayari ang pag-append ng existing images sa form data kapag nag-save ng item at stock sa admin dashboard
             if (itemId && !formData.has('existingImages')) {
                 formData.append('existingImages', '');
             }
 
+            //dito nangyayari ang pag-set ng URL at method para sa AJAX request kapag nag-save ng item at stock sa admin dashboard
             const url = itemId ? `/items/${itemId}` : '/items';
-            const method = itemId ? 'PUT' : 'POST';
+            const method = itemId ? 'PUT' : 'POST';//gagana ito kapag nag-eedit ng item, at POST kapag nag-aadd ng bagong item
 
+            //ito ay nagse-send ng AJAX request sa backend para i-save ang item at stock sa admin dashboard
             $.ajax({
                 url: `${FurnitureShopAPI.baseUrl}${url}`,
                 method,
                 data: formData,
-                headers: FurnitureShopAPI.authHeaders(),
+                headers: FurnitureShopAPI.authHeaders(),//chinecheck lang nito kung mayroong valid na token sa local storage, at kung meron, iseset ito sa Authorization header ng request
                 processData: false,
                 contentType: false,
                 dataType: 'json',

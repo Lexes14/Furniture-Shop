@@ -34,7 +34,7 @@ function normalizeImages(images) {
     return [];
   }
 
-
+// kahit na ano pa ang format ng input (string, array, o null/undefined).
   if (Array.isArray(images)) {
     return images.filter(Boolean);
   }
@@ -231,7 +231,7 @@ async function createItem(req, res) {
       createdBy: createdBy || req.user?.id || null,
     });
 
-    await syncItemStock(item.id, req.body, req.user?.id);
+    await syncItemStock(item.id, req.body, req.user?.id);//ito yung function na nagse-sync ng stock information sa database para sa bagong item.
 
     const createdItem = await Item.findByPk(item.id, { include: itemInclude() }); //controller response
     await attachStocks(createdItem);

@@ -1,3 +1,4 @@
+//ginagawa nito ay nagchecheck kung ang user ay mayroong tamang role para ma-access ang isang route, at kung wala, magre-return ito ng 403 Access Denied response
 function authorizeRoles(...allowedRoles) {
   return (req, res, next) => {
     if (!req.user) {

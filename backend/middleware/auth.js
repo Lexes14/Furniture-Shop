@@ -3,10 +3,10 @@ const { verifyToken } = require('../utils/jwt');
 
 //dito nangyayari ang pag-authenticate ng user sa bawat request sa backend, gamit ang JWT token na galing sa frontend
 async function authenticate(req, res, next) {
-  //kumuha ng token mula sa iba't ibang posibleng sources: authorization header, x-access-token header, o request body
-  const authHeader = req.headers.authorization || ''; // galing sa frontend request
-  const tokenFromHeader = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null; // authorization header, kung ito ay nagsisimula sa "Bearer "
-  const token = tokenFromHeader || req.headers['x-access-token'] || req.body?.token; //iba't ibang posibleng sources: authorization header, x-access-token header, o request body
+//iba't ibang posibleng sources: authorization header, x-access-token header, o request body
+  const authHeader = req.headers.authorization || '';
+  const tokenFromHeader = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+  const token = tokenFromHeader || req.headers['x-access-token'] || req.body?.token; 
 
   if (!token) {
     return res.status(401).json({ success: false, message: 'Authentication token is required' });
