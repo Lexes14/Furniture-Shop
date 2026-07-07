@@ -11,6 +11,7 @@
     return new Chart(ctx, config);
   }
 
+  // Load reports and charts data from the API
   function loadReports() {
     FurnitureShopAPI.get('/reports/overview')
       .done((response) => {
@@ -35,7 +36,8 @@
         }
       });
 
-    FurnitureShopAPI.get('/charts/sales-bar')
+      
+    FurnitureShopAPI.get('/charts/sales-bar')//ito ay nagre-request sa backend para makuha ang data para sa daily sales chart
       .done((response) => {
         const ctx = document.getElementById('reportDailyChart');
         if (ctx) {
@@ -43,7 +45,7 @@
         }
       });
 
-    FurnitureShopAPI.get('/charts/sales-line')
+    FurnitureShopAPI.get('/charts/sales-line')//ito naman ay nagre-request sa backend para makuha ang data para sa monthly sales chart
       .done((response) => {
         const ctx = document.getElementById('reportMonthlyChart');
         if (ctx) {
@@ -51,7 +53,7 @@
         }
       });
 
-    FurnitureShopAPI.get('/charts/product-bar')
+    FurnitureShopAPI.get('/charts/product-bar')//ito ay nagre-request sa backend para makuha ang data para sa best-selling products chart
       .done((response) => {
         const ctx = document.getElementById('reportBestSellerChart');
         if (ctx) {

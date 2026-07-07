@@ -141,6 +141,7 @@
     });
   }
 
+  // Initialize autocomplete on the home and product search inputs
   $(function () {
     createAutocomplete('#homeSearchInput', '#homeSearchResults');
     createAutocomplete('#productSearch', '#productSearchResults');

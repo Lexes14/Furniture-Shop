@@ -363,7 +363,7 @@
                 url: `${FurnitureShopAPI.baseUrl}${url}`,
                 method,
                 data: formData,
-                headers: FurnitureShopAPI.authHeaders(),//chinecheck lang nito kung mayroong valid na token sa local storage, at kung meron, iseset ito sa Authorization header ng request
+                headers: FurnitureShopAPI.authHeaders(),//chinecheck lang nito
                 processData: false,
                 contentType: false,
                 dataType: 'json',
@@ -411,6 +411,7 @@
         `;
     }
 
+    //
     function loadProductPage($grid, $sentinel, $emptyState, reset) {
         if (productLoading) {
             return;
@@ -463,54 +464,53 @@
             });
     }
 
-    function initInfiniteScrollProducts() {
-        const $grid = $('#productGrid');
-        if (!$grid.length) {
-            return;
-        }
+   function initInfiniteScrollProducts() {
+    const $grid = $('#productGrid');
+    if (!$grid.length) {
+        return;
+    }
 
-        const $sentinel = $('#productSentinel');
-        const $emptyState = $('#productEmpty');
-        const $search = $('#productSearch');
+    const $sentinel = $('#productSentinel');
+    const $emptyState = $('#productEmpty');
+    const $search = $('#productSearch');
 
-        function resetAndLoad() {
-            productPage = 1;
-            productTotalPages = 1;
-            loadProductPage($grid, $sentinel, $emptyState, true);
-        }
+    function resetAndLoad() {
+        productPage = 1;
+        productTotalPages = 1;
+        loadProductPage($grid, $sentinel, $emptyState, true);
+    }
 
-        resetAndLoad();
+    resetAndLoad();
 
-        if ($search.length) {
-            $search.on('input', FurnitureShopAPI.debounce(() => {
-                productSearchTerm = String($search.val() || '').trim();
-                resetAndLoad();
-            }));
-        }
+    if ($search.length) {
+        $search.on('input', FurnitureShopAPI.debounce(() => {
+            productSearchTerm = String($search.val() || '').trim();
+            resetAndLoad();
+        }));
+    }
 
-        if ('IntersectionObserver' in window && $sentinel.length) {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        loadProductPage($grid, $sentinel, $emptyState, false);
-                    }
-                });
-            }, { rootMargin: '200px' });
-
-            observer.observe($sentinel[0]);
-        } else {
-            // Fallback for old browsers without IntersectionObserver support
-            $(window).on('scroll', FurnitureShopAPI.debounce(() => {
-                const scrollBottom = $(window).scrollTop() + $(window).height();
-                const sentinelTop = $sentinel.offset()?.top || 0;
-                if (scrollBottom >= sentinelTop - 200) {
+    if ('IntersectionObserver' in window && $sentinel.length) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
                     loadProductPage($grid, $sentinel, $emptyState, false);
                 }
-            }, 150));
-        }
+            });
+        }, { rootMargin: '200px' });
 
-        attachCartAction();
+        observer.observe($sentinel[0]);
+    } else {
+        $(window).on('scroll', FurnitureShopAPI.debounce(() => {
+            const scrollBottom = $(window).scrollTop() + $(window).height();
+            const sentinelTop = $sentinel.offset()?.top || 0;
+            if (scrollBottom >= sentinelTop - 200) {
+                loadProductPage($grid, $sentinel, $emptyState, false);
+            }
+        }, 150));
     }
+
+    attachCartAction();
+}
 
     $(function () {
         attachCarouselControls();

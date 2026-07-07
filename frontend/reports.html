@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,63 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 </head>
+
 <body>
-  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a href="users.html">Users</a><a href="items.html">Items</a><a class="active" href="reports.html">Reports</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Create Account</a></div></div></header>
-  <main class="section"><div class="container"><div class="page-banner__panel" data-reveal><span class="eyebrow">Reports and Analytics</span><h1 class="section__title">Sales, inventory, and transaction intelligence.</h1><p class="section__subtitle">This page is prepared for report tables, downloadable receipts, and Chart.js visualizations.</p></div><div class="grid grid--3" style="margin-top: 1rem;"><article class="panel" data-reveal><div class="panel__body"><h3>Daily Sales</h3><canvas id="reportDailyChart" height="180"></canvas></div></article><article class="panel" data-reveal data-delay="1"><div class="panel__body"><h3>Monthly Sales</h3><canvas id="reportMonthlyChart" height="180"></canvas></div></article><article class="panel" data-reveal data-delay="2"><div class="panel__body"><h3>Best Sellers</h3><canvas id="reportBestSellerChart" height="180"></canvas></div></article></div><div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="3"><div class="table-responsive"><table id="reportTable"><thead><tr><th>Type</th><th>Reference</th><th>Value</th></tr></thead><tbody></tbody></table></div></div></div></main>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a
+          href="users.html">Users</a><a href="items.html">Items</a><a class="active" href="reports.html">Reports</a>
+      </nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal><span class="eyebrow">Reports and Analytics</span>
+        <h1 class="section__title">Sales, inventory, and transaction intelligence.</h1>
+        <p class="section__subtitle">This page is prepared for report tables, downloadable receipts, and Chart.js
+          visualizations.</p>
+      </div>
+      <div class="grid grid--3" style="margin-top: 1rem;">
+        <article class="panel" data-reveal>
+          <div class="panel__body">
+            <h3>Daily Sales</h3><canvas id="reportDailyChart" height="180"></canvas>
+          </div>
+        </article>
+        <article class="panel" data-reveal data-delay="1">
+          <div class="panel__body">
+            <h3>Monthly Sales</h3><canvas id="reportMonthlyChart" height="180"></canvas>
+          </div>
+        </article>
+        <article class="panel" data-reveal data-delay="2">
+          <div class="panel__body">
+            <h3>Best Sellers</h3><canvas id="reportBestSellerChart" height="180"></canvas>
+          </div>
+        </article>
+      </div>
+      <div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="3">
+        <div class="table-responsive">
+          <table id="reportTable">
+            <thead>
+              <tr>
+                <th>Type</th>
+                <th>Reference</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="js/api.js"></script>
   <script src="js/report.js"></script>
 </body>
+
 </html>

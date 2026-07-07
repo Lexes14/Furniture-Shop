@@ -1,4 +1,5 @@
 (function ($) {
+  
   function renderFeaturedProducts(items) {
     const $container = $('#featuredProducts');
     if (!$container.length) {
@@ -27,10 +28,12 @@
     $container.html(html);
   }
 
+  
   $(document).on('click', '#featuredProducts [data-item-id]', function () {
     window.location.href = `product.html?item=${$(this).data('item-id')}`;
   });
 
+  
   $(function () {
     FurnitureShopAPI.get('/items', { featured: true, status: 'active', limit: 6, page: 1 })
       .done((response) => {
