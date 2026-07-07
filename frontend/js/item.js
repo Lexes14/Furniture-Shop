@@ -2,6 +2,7 @@
     const itemCache = new Map();
     let categoriesLoaded = false;
 
+    //para maiwasan ang xss attack na naglalagay ng malicious na script sa input fields, ang function na ito ay nag-e-escape ng special characters sa HTML.
     function escapeHtml(value) {
         return String(value ?? '')
             .replace(/&/g, '&amp;')
@@ -11,6 +12,7 @@
             .replace(/'/g, '&#039;');
     }
 
+    //nagloload ng category sa admin dashboard
     function loadCategoryOptions() {
         const $category = $('#itemCategoryId');
         if (!$category.length || categoriesLoaded) {
@@ -38,6 +40,8 @@
             });
     }
 
+    
+    //nagre-render ng product images sa admin dashboard at sa customer-facing product card
     function getProductImages(item) {
         return FurnitureShopAPI.itemImages(item);
     }
@@ -136,6 +140,7 @@
     `;
     }
 
+    //ginagawa nito para maipakita ang stock quantity sa admin dashboard table
     function renderStockQuantity(_value, _type, item) {
         return Number(item.stock?.quantity || 0);
     }
@@ -187,6 +192,7 @@
             });
     }
 
+    //sinesearch ng admin dashboard table (#itemTable) kapag nagta-type sa search input (#itemSearch)
     function bindSearch(table, selector) {
         const $input = $(selector);
         if (!$input.length) {
@@ -198,6 +204,7 @@
         }));
     }
 
+    //dito nangyayari ang pag-append ng search term sa AJAX request kapag nagta-type sa search input (#itemSearch)
     function appendSearch(data, selector) {
         const search = String($(selector).val() || '').trim();
         if (search) {
@@ -205,6 +212,7 @@
         }
     }
 
+    //dito nangyayari ang pag-load ng items sa admin dashboard table (#itemTable) gamit ang AJAX request
     function loadItemsAjax(selector, baseParams = {}) {
         return function (_data, callback) {
             const params = { ...baseParams, limit: 1000 };
@@ -221,6 +229,7 @@
         };
     }
 
+    //dito nangyayari ang pag-append ng item sa cart kapag nag-click sa "Add to Cart" button sa customer-facing product card
     function attachCartAction() {
         $(document).on('click', '.js-add-cart', function () {
             const itemId = Number($(this).data('item-id'));
@@ -254,6 +263,7 @@
         $dots.removeClass('is-active').eq(nextIndex).addClass('is-active');
     }
 
+    //code para sa pag-control ng carousel sa product images sa admin dashboard at sa customer-facing product card
     function attachCarouselControls() {
         $(document).on('click', '.js-carousel-prev', function (event) {
             event.preventDefault();
@@ -279,6 +289,7 @@
         });
     }
 
+    //dito nangyayari ang pag-save ng item at stock sa admin dashboard kapag nag-submit ng form (#itemForm)
     function attachAdminActions(table) {
         $(document).on('click', '.js-delete-item', function () {
             const itemId = Number($(this).data('item-id'));
@@ -332,6 +343,7 @@
             adjustStock(table, $(this).data('item-id'), -1);
         });
 
+        //dito namangyayari ang pag-save ng item at stock sa admin dashboard kapag nag-submit ng form (#itemForm)
         $(document).on('submit', '#itemForm', function (event) {
             event.preventDefault();
             const itemId = $('#itemId').val();
@@ -362,7 +374,7 @@
                     $('#itemQuantity').val('0');
                     $('#itemLowStockLevel').val('5');
                     clearExistingImages();
-                    table.ajax.reload(null, false);
+                    table.ajax.reload(null, false); // Refresh the table without resetting pagination
                 })
                 .fail((xhr) => FurnitureShopAPI.setMessage('#itemMessage', xhr.responseJSON?.message || 'Failed to save item.', 'danger'));
         });

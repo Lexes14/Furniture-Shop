@@ -18,8 +18,8 @@ router.get(
 router.post(
   '/',
   [
-    body('shippingAddress').trim().notEmpty().withMessage('Shipping address is required'),
-    body('paymentMethod').optional().trim().notEmpty().withMessage('Payment method is required'),
+    body('shippingAddress').trim().notEmpty().withMessage('Shipping address is required'),//ito ay para sa pag-validate ng shipping address na ipinapadala mula sa frontend, kung saan tinitiyak na ito ay hindi empty at isang valid string
+    body('paymentMethod').optional().trim().notEmpty().withMessage('Payment method is required'),//ito ay para sa pag-validate ng payment method na ipinapadala mula sa frontend, kung saan tinitiyak na ito ay hindi empty at isang valid string
     validateRequest,
   ],
   orderController.createOrder

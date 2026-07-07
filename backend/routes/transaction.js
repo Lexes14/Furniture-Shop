@@ -7,6 +7,7 @@ const { validateRequest } = require('../middleware/validator');
 
 const router = express.Router();
 
+
 router.use(authenticate);
 
 router.get('/', transactionController.listTransactions);
@@ -15,6 +16,7 @@ router.get(
   [param('id').isInt().withMessage('Valid transaction id is required'), validateRequest],
   transactionController.getTransaction
 );
+
 router.post(
   '/',
   [

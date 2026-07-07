@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions | Furniture Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a
+          href="users.html">Users</a><a href="items.html">Items</a><a class="active"
+          href="transactions.html">Transactions</a><a href="reports.html">Reports</a></nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal>
+        <span class="eyebrow">Payments</span>
+        <h1 class="section__title">Track and finalize order payments.</h1>
+        <p class="section__subtitle">Add, edit, and delete transactions, and mark orders as paid, failed, or refunded.
+        </p>
+      </div>
+
+      <div class="panel" style="margin-top: 1rem;" data-reveal data-delay="1">
+        <div class="panel__body">
+          <div id="transactionMessage" class="badge badge--warning" style="display:none;"></div>
+          <form id="transactionForm" class="form" action="#" method="post" novalidate>
+            <input type="hidden" id="txnId" name="txnId">
+            <div class="grid grid--3">
+              <div class="field">
+                <label for="txnOrderId">Order ID</label>
+                <input id="txnOrderId" name="orderId" type="number" min="1" placeholder="e.g. 14">
+              </div>
+              <div class="field">
+                <label for="txnPaymentMethod">Payment Method</label>
+                <input id="txnPaymentMethod" name="paymentMethod" type="text"
+                  placeholder="cash_on_delivery, gcash, etc.">
+              </div>
+              <div class="field">
+                <label for="txnAmount">Amount (optional)</label>
+                <input id="txnAmount" name="amount" type="number" min="0" step="0.01"
+                  placeholder="Leave blank to auto-compute">
+              </div>
+            </div>
+            <div class="grid grid--3">
+              <div class="field">
+                <label for="txnStatus">Status</label>
+                <select id="txnStatus" name="status">
+                  <option value="pending">Pending</option>
+                  <option value="paid">Paid</option>
+                  <option value="failed">Failed</option>
+                  <option value="refunded">Refunded</option>
+                </select>
+              </div>
+              <div class="field" style="grid-column: span 2;">
+                <label for="txnRemarks">Remarks</label>
+                <input id="txnRemarks" name="remarks" type="text" placeholder="Optional note">
+              </div>
+            </div>
+            <div style="display:flex; gap:0.75rem;">
+              <button class="btn btn--primary" type="submit" id="txnSubmitBtn">Record Transaction</button>
+              <button class="btn btn--ghost" type="button" id="txnCancelEditBtn" style="display:none;">Cancel
+                Edit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="2">
+        <div class="table-toolbar table-toolbar--wrap">
+          <strong>Transactions</strong>
+          <div class="toolbar-controls">
+            <select id="transactionStatusFilter">
+              <option value="">All Statuses</option>
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="failed">Failed</option>
+              <option value="refunded">Refunded</option>
+            </select>
+            <input id="transactionSearch" type="search" placeholder="Search transactions">
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="transactionTable">
+            <thead>
+              <tr>
+                <th>Transaction #</th>
+                <th>Order #</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/transaction.js"></script>
+</body>
+
+</html>

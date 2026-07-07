@@ -20,10 +20,7 @@ function orderIncludes() {
   ];
 }
 
-// Computes subtotal/grandTotal on the fly from order.items (quantity x price)
-// and attaches them to the Sequelize instance so API responses keep the exact
-// same shape as before (data.subtotal / data.grandTotal still present),
-// even though these are no longer stored columns.
+//ang function na ito ay para sa pagcompute ng subtotal at grandTotal ng order, at pag-attach ng computed totals sa order object
 function computeOrderTotals(order) {
   if (!order) {
     return order;
@@ -194,11 +191,13 @@ async function restoreSoldStock(orderItems, transaction) {
   }
 }
 
+//dito nagcrecreate ng order, at nagrereserve ng stock para sa bawat item sa order, at nagtatanggal ng items sa cart
 async function createOrder(req, res) {
-  const transaction = await sequelize.transaction();
+  const transaction = await sequelize.transaction(); 
   try {
-    const { shippingAddress, paymentMethod = 'cash_on_delivery', notes = null } = req.body;
+    const { shippingAddress, paymentMethod = 'cash_on_delivery', notes = null } = req.body; //kuha ng data mula sa request body para sa shipping address, payment method, at notes
 
+    // Check if the user has an active cart with items
     const cart = await Cart.findOne({
       where: { userId: req.user.id },
       include: [{ model: CartItem, as: 'items', include: [{ model: Item, as: 'item' }] }],
@@ -206,11 +205,13 @@ async function createOrder(req, res) {
       lock: transaction.LOCK.UPDATE,
     });
 
+    // Check if the cart exists and has items
     if (!cart || cart.items.length === 0) {
-      await transaction.rollback();
+      await transaction.rollback();//ang rollback ay para i-undo ang anumang pagbabago sa database kung sakaling may error o hindi maiproseso ang order
       return res.status(400).json({ success: false, message: 'Cart is empty' });
     }
 
+    // Check stock availability for each item in the cart
     for (const cartItem of cart.items) {
       const stock = await Stock.findOne({ where: { itemId: cartItem.itemId }, transaction, lock: transaction.LOCK.UPDATE });
       const availableQuantity = Number(stock?.quantity || 0) - Number(stock?.reservedQuantity || 0);
@@ -221,10 +222,10 @@ async function createOrder(req, res) {
     }
 
     // subtotal/grandTotal are computed here only to decide the shipping fee
-    // threshold — they are NOT stored on the order record anymore.
     const subtotal = cart.items.reduce((sum, cartItem) => sum + Number(cartItem.subtotal), 0);
     const shippingFee = subtotal >= 50000 ? 0 : 500;
 
+    //dito nagccreate ng order record sa database gamit ang Order model, at nagccreate ng OrderItem records para sa bawat item sa cart
     const order = await Order.create({
       orderNumber: generateOrderNumber(),
       userId: req.user.id,
@@ -235,6 +236,7 @@ async function createOrder(req, res) {
       notes,
     }, { transaction });
 
+    //dito nagccreate ng OrderItem records para sa bawat item sa cart, at nire-reserve ang stock para sa bawat item
     for (const cartItem of cart.items) {
       await OrderItem.create({
         orderId: order.id,
@@ -244,15 +246,19 @@ async function createOrder(req, res) {
       }, { transaction });
     }
 
+    // Reserve stock for the order items and clear the cart
     await reserveStockForOrder(cart.items, transaction);
     await CartItem.destroy({ where: { cartId: cart.id }, transaction });
     await cart.update({ status: 'converted' }, { transaction });
 
+    // Commit the transaction after all operations are successful
     await transaction.commit();
 
+    // Compute totals and fetch the order with its items for the response
     const createdOrder = await Order.findByPk(order.id, { include: orderIncludes() });
     computeOrderTotals(createdOrder);
 
+    // Runs AFTER transaction.commit() — wrapped in safeNotifyOrderStatus()
     return res.status(201).json({ success: true, message: 'Order created successfully', data: createdOrder });
   } catch (error) {
     await transaction.rollback();

@@ -8,13 +8,15 @@ const { productUpload } = require('../middleware/upload');
 
 const router = express.Router();
 
-router.get('/', itemController.listItems);
+router.get('/', itemController.listItems); //kukunin lahat ng items
 router.get(
   '/:id',
   [param('id').isInt().withMessage('Valid item id is required'), validateRequest],
   itemController.getItem
-);
+); //kukunin ang item na may specific id
 
+//ang route na ito ay para sa pag-create ng bagong item, na may authentication at 
+// authorization para sa admin role, pati na rin ang pag-upload ng images gamit ang multer
 router.post(
   '/',
   authenticate,
@@ -31,6 +33,8 @@ router.post(
   itemController.createItem
 );
 
+//ang route na ito ay para sa pag-update ng item na may specific id, 
+// na may authentication at authorization para sa admin role, pati na rin ang pag-upload ng images gamit ang multer
 router.put(
   '/:id',
   authenticate,
@@ -40,6 +44,8 @@ router.put(
   itemController.updateItem
 );
 
+//ang route na ito ay para sa pag-delete ng item na may specific id,
+// na may authentication at authorization para sa admin role
 router.delete(
   '/:id',
   authenticate,
@@ -48,4 +54,5 @@ router.delete(
   itemController.deleteItem
 );
 
+//ang module.exports ay nag-e-export ng router para magamit sa ibang bahagi ng application
 module.exports = router;

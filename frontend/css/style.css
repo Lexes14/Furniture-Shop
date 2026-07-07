@@ -959,3 +959,20 @@ th {
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ===== Inline field validation ===== */
+.field input.field--invalid,
+.field select.field--invalid,
+.field textarea.field--invalid {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 4px rgba(180, 35, 24, 0.08);
+}
+
+.field-error {
+  display: none;
+  margin-top: -0.3rem;
+  color: var(--danger);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.78rem;
+  line-height: 1.4;
+}

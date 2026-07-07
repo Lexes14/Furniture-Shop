@@ -4,7 +4,9 @@ const path = require('path');
 const { Item, Category, Stock } = require('../models');
 const { normalizeSearch, paginate } = require('../utils/helpers');
 
-function parseImages(req) {
+//heart ng multiple upload
+  function parseImages(req) {
+  // If no files are uploaded and no existingImages field is provided, return null to indicate no change
   const uploadedImages = (req.files || []).map((file) => file.filename);
   const existingImages = req.body.existingImages;
   const hasExistingImagesField = Object.prototype.hasOwnProperty.call(req.body, 'existingImages');
@@ -12,32 +14,43 @@ function parseImages(req) {
   if (!hasExistingImagesField && uploadedImages.length === 0) {
     return null;
   }
-
+  //gumamit ng ternary operator para i-check kung ano ang type ng existingImages.
+  //tinatanong kung array ba ito, kung hindi, kung string ba ito at may laman, 
+  // kung oo, gagawin niya itong array by splitting by comma and trimming 
+  // whitespace. If none of these conditions are met, it will return an empty array.
   const parsedExistingImages = Array.isArray(existingImages)
     ? existingImages
     : typeof existingImages === 'string' && existingImages.trim()
       ? existingImages.split(',').map((image) => image.trim()).filter(Boolean)
       : [];
 
+  //pinagsama ang parsedExistingImages at uploadedImages arrays para makabuo ng final images array na ibabalik.
   return [...parsedExistingImages, ...uploadedImages];
 }
 
+//ito yung function na nagno-normalize ng images. Kung walang images, magbabalik ito ng empty array.
 function normalizeImages(images) {
   if (!images) {
     return [];
   }
 
+
   if (Array.isArray(images)) {
     return images.filter(Boolean);
   }
 
+// nagno-normalize ng images input para maging consistent na array of strings,
+//  kahit na ano pa ang format ng input (string, array, o null/undefined).
   if (typeof images === 'string') {
     try {
+    //chinecheck nya lang kung valid JSON string ba yung images, kung oo, ipaparse niya ito at ichecheck kung array ba ito.
+    //  Kung hindi valid JSON, gagawin niya itong array by splitting by comma and trimming whitespace.
       const parsed = JSON.parse(images);
       if (Array.isArray(parsed)) {
         return parsed.filter(Boolean);
       }
-    } catch (_error) {
+    }
+     catch (_error) {
       return images.split(',').map((image) => image.trim()).filter(Boolean);
     }
   }
@@ -45,6 +58,8 @@ function normalizeImages(images) {
   return [];
 }
 
+//ito yung function na nagde-delete ng product images. 
+//ang fs.unlink ay ginagamit para tanggalin ang file sa filesystem.
 function deleteProductImages(images) {
   normalizeImages(images).forEach((image) => {
     const imagePath = path.join(__dirname, '..', 'uploads', 'products', path.basename(image));
@@ -56,6 +71,7 @@ function hasStockInput(body) {
   return body.quantity !== undefined || body.reservedQuantity !== undefined || body.lowStockLevel !== undefined || body.location !== undefined;
 }
 
+//ginagawa nito ang function na nagse-sync ng stock information sa database para sa isang item.
 async function syncItemStock(itemId, body, userId) {
   if (!hasStockInput(body)) {
     return null;
@@ -83,12 +99,14 @@ async function syncItemStock(itemId, body, userId) {
   return stock;
 }
 
+//ito naman yung function na nag-a-attach ng stock information sa bawat item.
 function itemInclude() {
   return [
     { model: Category, as: 'category', required: false },
   ];
 }
 
+//ginagawa nito ang function na nag-a-attach ng stock information sa bawat item.
 async function attachStocks(items) {
   const rows = Array.isArray(items) ? items : [items];
   const itemIds = rows.map((item) => item?.id).filter(Boolean);
@@ -182,7 +200,7 @@ async function getItem(req, res) {
     return res.status(500).json({ success: false, message: 'Failed to fetch item', error: error.message });
   }
 }
-
+// ito yung function na nagc-create ng item, nagva-validate ng category at sku, nagpa-parse ng images, at nagse-save ng item sa database.
 async function createItem(req, res) {
   try {
     const { categoryId, name, sku, description, price, costPrice, featured, status, createdBy } = req.body;
@@ -196,9 +214,10 @@ async function createItem(req, res) {
     if (duplicateSku) {
       return res.status(409).json({ success: false, message: 'SKU already exists' });
     }
-
+//create operation at nagsasave ng item sa database
     const images = parseImages(req);
 
+    //sequelize insert operation para gumawa ng bagong item sa database gamit ang Item model
     const item = await Item.create({
       categoryId,
       name,
@@ -214,7 +233,7 @@ async function createItem(req, res) {
 
     await syncItemStock(item.id, req.body, req.user?.id);
 
-    const createdItem = await Item.findByPk(item.id, { include: itemInclude() });
+    const createdItem = await Item.findByPk(item.id, { include: itemInclude() }); //controller response
     await attachStocks(createdItem);
     return res.status(201).json({ success: true, message: 'Item created successfully', data: createdItem });
   } catch (error) {
@@ -222,15 +241,20 @@ async function createItem(req, res) {
   }
 }
 
+//dito yung function na nag-u-update ng item, nagva-validate ng category at sku, nagpa-parse ng images, 
+// at nagse-save ng updated item sa database.
 async function updateItem(req, res) {
   try {
+    //hinahanap ang item sa database gamit ang id mula sa request parameters. 
     const item = await Item.findByPk(req.params.id);
     if (!item) {
       return res.status(404).json({ success: false, message: 'Item not found' });
     }
 
+    //kinukuha ang mga fields mula sa request body na gagamitin para i-update ang item.
     const { categoryId, name, sku, description, price, costPrice, featured, status } = req.body;
 
+    //ito naman yung validation para sa categoryId. Kung may categoryId sa request body, hahanapin niya ito sa database.
     if (categoryId) {
       const category = await Category.findByPk(categoryId);
       if (!category) {
@@ -239,6 +263,8 @@ async function updateItem(req, res) {
       item.categoryId = categoryId;
     }
 
+    //ito yung validation para sa sku. Kung may sku sa request body at iba ito sa kasalukuyang sku ng item,
+    //  hahanapin niya kung may ibang item na may parehong sku.
     if (sku && sku !== item.sku) {
       const duplicateSku = await Item.findOne({ where: { sku, id: { [Op.ne]: item.id } } });
       if (duplicateSku) {
@@ -247,6 +273,7 @@ async function updateItem(req, res) {
       item.sku = sku;
     }
 
+    //ito yung mga conditional updates para sa iba pang fields ng item. Kung may value sa request body, i-uupdate niya ang item.
     if (name !== undefined) item.name = name;
     if (description !== undefined) item.description = description;
     if (price !== undefined) item.price = price;
@@ -254,6 +281,7 @@ async function updateItem(req, res) {
     if (featured !== undefined) item.featured = featured === true || featured === 'true' || featured === '1';
     if (status !== undefined) item.status = status;
 
+    //ito yung update ng images ng item. Kinukuha niya ang images mula sa request gamit ang parseImages function.
     const images = parseImages(req);
     if (images !== null) {
       const removedImages = normalizeImages(item.images).filter((image) => !images.includes(image));
@@ -272,13 +300,16 @@ async function updateItem(req, res) {
   }
 }
 
+//ito yung function na nagde-delete ng item. Hinahanap niya ang item sa database gamit ang id mula sa request parameters, at kung nahanap, ide-delete niya ito at ang mga associated images.
 async function deleteItem(req, res) {
   try {
+    //check kung may stock ang item bago idelete.
     const item = await Item.findByPk(req.params.id);
     if (!item) {
       return res.status(404).json({ success: false, message: 'Item not found' });
     }
 
+  
     const images = normalizeImages(item.images);
     await item.destroy();
     deleteProductImages(images);

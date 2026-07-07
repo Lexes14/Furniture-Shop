@@ -197,6 +197,10 @@ function drawFooter(doc) {
   );
 }
 
+//ito ang function na nagge-generate ng PDF receipt gamit ang pdfkit library. Ang function ay tumatanggap ng file path, 
+// title, details, items, at summary bilang mga argumento. Ginagamit nito ang iba't ibang helper functions upang iguhit
+//  ang header, details, items table, summary, at footer ng PDF. Sa huli, sine-save nito ang PDF sa tinukoy na file path 
+// at nagre-return ng promise na nagre-resolve sa file path kapag natapos na ang pag-generate ng PDF.
 async function generateReceiptPDF({ filePath, title, details = [], items = null, summary = [] }) {
   await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
 

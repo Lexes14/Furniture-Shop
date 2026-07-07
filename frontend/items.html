@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,99 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
 </head>
+
 <body>
-  <header class="header"><div class="container header__inner"><a class="brand" href="index.html"><span class="brand__mark">F</span><span>Furniture Shop</span></a><nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a href="users.html">Users</a><a class="active" href="items.html">Items</a><a href="reports.html">Reports</a></nav><div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary" href="register.html">Create Account</a></div></div></header>
-  <main class="section"><div class="container"><div class="page-banner__panel" data-reveal><span class="eyebrow">Furniture CRUD</span><h1 class="section__title">Add, edit, and manage product listings.</h1><p class="section__subtitle">The item management page is structured for CRUD actions, image uploads, and inventory hooks.</p></div><div class="panel" style="margin-top: 1rem;" data-reveal data-delay="1"><div class="panel__body"><div id="itemMessage" class="badge badge--warning" style="display:none;"></div><form id="itemForm" class="form" action="#" method="post" enctype="multipart/form-data" novalidate><input type="hidden" id="itemId" name="itemId"><input type="hidden" id="stockId" name="stockId"><div class="grid grid--3"><div class="field"><label for="itemName">Name</label><input id="itemName" name="name" type="text" placeholder="Item name"></div><div class="field"><label for="itemSku">SKU</label><input id="itemSku" name="sku" type="text" placeholder="SKU"></div><div class="field"><label for="itemCategoryId">Category</label><select id="itemCategoryId" name="categoryId"><option value="">Select category</option></select></div></div><div class="grid grid--3"><div class="field"><label for="itemPrice">Price</label><input id="itemPrice" name="price" type="number" min="0" step="0.01"></div><div class="field"><label for="itemCostPrice">Cost Price</label><input id="itemCostPrice" name="costPrice" type="number" min="0" step="0.01"></div><div class="field"><label for="itemStatus">Status</label><select id="itemStatus" name="status"><option value="active">Active</option><option value="inactive">Inactive</option></select></div></div><div class="grid grid--3"><div class="field"><label for="itemQuantity">Stock Quantity</label><input id="itemQuantity" name="quantity" type="number" min="0" step="1" value="0"></div><div class="field"><label for="itemLowStockLevel">Low Stock Level</label><input id="itemLowStockLevel" name="lowStockLevel" type="number" min="0" step="1" value="5"></div><div class="field"><label for="itemLocation">Stock Location</label><input id="itemLocation" name="location" type="text" placeholder="Warehouse / showroom"></div></div><div class="grid grid--3"><div class="field"><label for="itemFeatured">Featured</label><select id="itemFeatured" name="featured"><option value="1">Yes</option><option value="0">No</option></select></div><div class="field" style="grid-column: span 2;"><label for="itemImages">Images</label><input id="itemImages" name="images" type="file" multiple accept="image/*"><div id="itemExistingImages" class="image-manager"></div></div></div><div class="field"><label for="itemDescription">Description</label><textarea id="itemDescription" name="description" rows="4"></textarea></div><button class="btn btn--primary" type="submit">Save Item</button></form></div></div><div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="2"><div class="table-toolbar"><strong>Furniture Items</strong><input id="itemSearch" type="search" placeholder="Search furniture"></div><div class="table-responsive"><table id="itemTable"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th>Action</th></tr></thead><tbody></tbody></table></div></div></div></main>
+  <header class="header">
+    <div class="container header__inner"><a class="brand" href="index.html"><span
+          class="brand__mark">F</span><span>Furniture Shop</span></a>
+      <nav class="nav"><a href="dashboard.html">Dashboard</a><a href="orders.html">Orders</a><a
+          href="users.html">Users</a><a class="active" href="items.html">Items</a><a href="reports.html">Reports</a>
+      </nav>
+      <div class="nav__actions"><a class="btn btn--ghost" href="login.html">Login</a><a class="btn btn--primary"
+          href="register.html">Create Account</a></div>
+    </div>
+  </header>
+  <main class="section">
+    <div class="container">
+      <div class="page-banner__panel" data-reveal><span class="eyebrow">Furniture CRUD</span>
+        <h1 class="section__title">Add, edit, and manage product listings.</h1>
+        <p class="section__subtitle">The item management page is structured for CRUD actions, image uploads, and
+          inventory hooks.</p>
+      </div>
+      <div class="panel" style="margin-top: 1rem;" data-reveal data-delay="1">
+        <div class="panel__body">
+          <div id="itemMessage" class="badge badge--warning" style="display:none;"></div>
+          <form id="itemForm" class="form" action="#" method="post" enctype="multipart/form-data" novalidate><input
+              type="hidden" id="itemId" name="itemId"><input type="hidden" id="stockId" name="stockId">
+            <div class="grid grid--3">
+              <div class="field"><label for="itemName">Name</label><input id="itemName" name="name" type="text"
+                  placeholder="Item name"></div>
+              <div class="field"><label for="itemSku">SKU</label><input id="itemSku" name="sku" type="text"
+                  placeholder="SKU"></div>
+              <div class="field"><label for="itemCategoryId">Category</label><select id="itemCategoryId"
+                  name="categoryId">
+                  <option value="">Select category</option>
+                </select></div>
+            </div>
+            <div class="grid grid--3">
+              <div class="field"><label for="itemPrice">Price</label><input id="itemPrice" name="price" type="number"
+                  min="0" step="0.01"></div>
+              <div class="field"><label for="itemCostPrice">Cost Price</label><input id="itemCostPrice" name="costPrice"
+                  type="number" min="0" step="0.01"></div>
+              <div class="field"><label for="itemStatus">Status</label><select id="itemStatus" name="status">
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select></div>
+            </div>
+            <div class="grid grid--3">
+              <div class="field"><label for="itemQuantity">Stock Quantity</label><input id="itemQuantity"
+                  name="quantity" type="number" min="0" step="1" value="0"></div>
+              <div class="field"><label for="itemLowStockLevel">Low Stock Level</label><input id="itemLowStockLevel"
+                  name="lowStockLevel" type="number" min="0" step="1" value="5"></div>
+              <div class="field"><label for="itemLocation">Stock Location</label><input id="itemLocation"
+                  name="location" type="text" placeholder="Warehouse / showroom"></div>
+            </div>
+            <div class="grid grid--3">
+              <div class="field"><label for="itemFeatured">Featured</label><select id="itemFeatured" name="featured">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select></div>
+              <div class="field" style="grid-column: span 2;"><label for="itemImages">Images</label><input
+                  id="itemImages" name="images" type="file" multiple accept="image/*">
+                <div id="itemExistingImages" class="image-manager"></div>
+              </div>
+            </div>
+            <div class="field"><label for="itemDescription">Description</label><textarea id="itemDescription"
+                name="description" rows="4"></textarea></div><button class="btn btn--primary" type="submit">Save
+              Item</button>
+          </form>
+        </div>
+      </div>
+      <div class="table-shell" style="margin-top: 1rem;" data-reveal data-delay="2">
+        <div class="table-toolbar"><strong>Furniture Items</strong><input id="itemSearch" type="search"
+            placeholder="Search furniture"></div>
+        <div class="table-responsive">
+          <table id="itemTable">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
   <script src="js/api.js"></script>
   <script src="js/item.js"></script>
 </body>
+
 </html>

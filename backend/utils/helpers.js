@@ -27,6 +27,7 @@ function buildSearchClause(value, fields) {
   };
 }
 
+//ito ay para sa pag-filter ng user object na ibabalik sa frontend, para hindi ma-expose ang password at token ng user
 function publicUser(user) {
   if (!user) {
     return null;
