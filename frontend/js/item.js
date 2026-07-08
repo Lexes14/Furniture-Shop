@@ -411,13 +411,9 @@
         `;
     }
 
-    //
-    function loadProductPage($grid, $sentinel, $emptyState, reset) {
+    //ito ang function para i-load ang product page
+   function loadProductPage($grid, $sentinel, $emptyState, reset) {
         if (productLoading) {
-            return;
-        }
-
-        if (!reset && productPage > productTotalPages) {
             return;
         }
 
@@ -439,31 +435,38 @@
                     $grid.empty();
                 }
 
-                if (!items.length && productPage === 1) {
-                    $emptyState.show();
-                } else {
-                    $emptyState.hide();
+                if (!items.length) {
+                    // Walang totoong datos kahit isa — dito lang talaga dapat
+                    // huminto, dahil wala nang maii-loop pang laman.
+                    if (productPage === 1) {
+                        $emptyState.show();
+                    }
+                    return;
                 }
 
+                $emptyState.hide();
                 $grid.append(items.map(productCardHtml).join(''));
-                productPage += 1;
+
+                // Kapag naabot na ang huling page, mag-loop pabalik sa page 1
+                // sa halip na huminto — ito ang gumagawa sa scroll na tunay na
+                // walang hangganan, kahit limitado lang ang totoong datos.
+                productPage = productPage >= productTotalPages ? 1 : productPage + 1;
             })
             .fail(() => {
-                if (productPage === 1) {
+                if (reset) {
                     $grid.html('<p class="product-grid__error">Unable to load products. Please refresh or try again.</p>');
                 }
             })
             .always(() => {
                 productLoading = false;
                 $sentinel.removeClass('is-loading');
-                if (productPage > productTotalPages) {
-                    $sentinel.hide();
-                } else {
-                    $sentinel.show();
-                }
+                // Sadyang walang $sentinel.hide() dito — dapat palaging
+                // "active" ang sentinel habang may laman ang catalog, para
+                // tuloy-tuloy ang pag-trigger ng IntersectionObserver.
             });
     }
 
+    //ito ang function para i-initialize ang infinite scroll sa product page
    function initInfiniteScrollProducts() {
     const $grid = $('#productGrid');
     if (!$grid.length) {
